@@ -1,0 +1,32 @@
+{% extends "quiz/base.html" %}
+{% block title %}Situação {{ n }} de {{ total }}{% endblock %}
+{% block content %}
+<p class="muted">Situação {{ n }} de {{ total }}</p>
+<div class="progress" role="progressbar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100"><i style="width:{{ percent }}%"></i></div>
+
+<div class="thread"><div class="bubble">{{ q.text }}</div></div>
+
+{% if chosen_id %}
+  {% for c in q.choices.all %}
+    <div class="reply done{% if c.is_correct %} ok{% elif c.pk == chosen_id %} bad{% endif %}">
+      {% if c.is_correct %}<b>Resposta correta{% if c.pk == chosen_id %} (a sua){% endif %}</b>{% elif c.pk == chosen_id %}<b>A sua resposta</b>{% endif %}
+      {{ c.text }}
+    </div>
+  {% endfor %}
+  <div class="feedback"><h2>Por quê?</h2>{{ q.explanation }}</div>
+  {% if is_last %}
+    <a class="btn" href="{% url 'result' %}">Ver resultado</a>
+  {% else %}
+    <a class="btn" href="{% url 'question' next_n %}">Próxima situação</a>
+  {% endif %}
+{% else %}
+  <form method="post">
+    {% csrf_token %}
+    {% if missing %}<p class="error" role="alert">Escolha uma resposta para continuar.</p>{% endif %}
+    {% for c in q.choices.all %}
+      <label class="reply"><input type="radio" name="choice" value="{{ c.pk }}" required>{{ c.text }}</label>
+    {% endfor %}
+    <button class="btn" type="submit">Responder</button>
+  </form>
+{% endif %}
+{% endblock %}

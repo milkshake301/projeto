@@ -1,0 +1,16 @@
+{% extends "quiz/base.html" %}
+{% block content %}
+<h1>Você reconheceria o cyberbullying quando ele aparecesse no seu chat?</h1>
+
+<div class="thread" aria-label="Exemplo de conversa">
+  <div class="bubble"><small>Mari</small>viram o que a Lu postou? 😂</div>
+  <div class="bubble"><small>Dani</small>kkkk já printei e mandei pro outro grupo</div>
+</div>
+
+{% if total %}
+  <a class="reply start" href="{% url 'question' 1 %}">E agora, o que você faz? Começar o quiz</a>
+  <p class="muted">{{ total }} situações, uma pergunta cada. Sem cadastro.</p>
+{% else %}
+  <p class="feedback">Ainda não há perguntas. Rode <code>python manage.py seed_quiz</code> ou cadastre pelo <a href="/admin/">admin</a>.</p>
+{% endif %}
+{% endblock %}

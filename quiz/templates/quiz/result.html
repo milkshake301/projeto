@@ -1,0 +1,25 @@
+{% extends "quiz/base.html" %}
+{% block title %}Resultado{% endblock %}
+{% block content %}
+<p class="muted">Você acertou {{ score }} de {{ total }}</p>
+<h1>{{ headline }}</h1>
+
+<div class="feedback">
+  <h2>Se você ou alguém que você conhece está passando por isso</h2>
+  <ul>
+    <li><strong>Disque 100</strong>: canal do governo federal para denunciar violações de direitos humanos.</li>
+    <li><strong>CVV, 188</strong>: apoio emocional, 24 horas, ligação gratuita.</li>
+    <li><strong>SaferNet Brasil</strong>: orientação e denúncia de crimes na internet, em <a href="https://helpline.org.br">helpline.org.br</a>.</li>
+  </ul>
+</div>
+
+<h2>Revisão</h2>
+{% for r in review %}
+  <details class="item">
+    <summary><b>{% if r.ok %}Acertou{% else %}Errou{% endif %}:</b> {{ r.q.text }}</summary>
+    <p>{{ r.q.explanation }}</p>
+  </details>
+{% endfor %}
+
+<a class="btn" href="{% url 'home' %}">Refazer o quiz</a>
+{% endblock %}
